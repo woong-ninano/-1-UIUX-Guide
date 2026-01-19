@@ -1,16 +1,15 @@
-
 import React, { useState } from 'react';
 import { 
   InputField, RadioGroup, SegmentControl, SelectionButtonGroup, 
   Checkbox, Switch, Dropdown, Tag, Button, Card, Accordion, Stepper, Badge as UIBadge,
   TabGroup, DataTable, ListRow, Banner, Pagination, Keypad, ImageRadioGroup,
   TimePicker, Disclosure, LinkText, ModalPreview, BottomSheetPreview, Header,
-  CalendarView, DropdownList, Notice, Tooltip, BoxLink, FileButton, InfoCard, ContactBanner, BillCard, PlanAccordion, ComparisonTable, ProcessTimeline, EmptyState, AreaInput, CoverageCheckItem, AutocompleteInput, DoubleUnitInput, PlanCarousel, StickyBottomBar, FloorInput, AmountSelect, ProductSummaryCard, SearchInput, TextareaField, PaymentCard, ThumbnailListItem, UnitInput, OptionCard, PhotoRegistration, DateTimeGroup, FileUploadBox, InstallmentSelection, CoverageAmountRadio, SplitButtonGroup, HierarchyList, InsuranceTablePC, ResidentNumberInput, DateRangeInput, InfoBox, TermsAgreement, SecurePasswordDisplay, DataCard, LoadingSpinner, IconActionList, AccountButton, AddressInputGroup, ImageBottomSheetPreview
+  CalendarView, DropdownList, Notice, Tooltip, BoxLink, FileButton, InfoCard, ContactBanner, BillCard, PlanAccordion, ComparisonTable, ProcessTimeline, EmptyState, AreaInput, CoverageCheckItem, AutocompleteInput, DoubleUnitInput, PlanCarousel, StickyBottomBar, FloorInput, AmountSelect, ProductSummaryCard, SearchInput, TextareaField, PaymentCard, ThumbnailListItem, UnitInput, OptionCard, PhotoRegistration, DateTimeGroup, InstallmentSelection, CoverageAmountRadio, SplitButtonGroup, HierarchyList, InsuranceTablePC, ResidentNumberInput, DateRangeInput, InfoBox, TermsAgreement, SecurePasswordDisplay, DataCard, LoadingSpinner, IconActionList, AccountButton, AddressInputGroup, ImageBottomSheetPreview
 } from './components/UIComponents';
 import { MenuSection } from './types';
 import { 
   Layout, Type, MousePointer, Image, CheckSquare, MessageSquare, 
-  Palette, Box, ChevronLeft, Menu, ChevronDown, PlusCircle
+  Palette, Box, ChevronDown
 } from 'lucide-react';
 
 const App: React.FC = () => {
@@ -1041,7 +1040,7 @@ const SelectionGuide = () => (
                         value="yes" 
                     />
                 </td>
-                <td><span className="badge bg-com">공통</span> 강조가 필요한 옵션에 배지(Badge)를 추가하여 혜택 등을 시각적으로 표현합니다.</td>
+                <td><span className="badge bg-com">공통</span> 강조가 필요하지만 옵션에 배지(Badge)를 추가하여 혜택 등을 시각적으로 표현합니다.</td>
             </tr>
         </tbody>
     </table>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>현대해상 다이렉트 화면설계 가이드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --primary: #ff6600;
+        --secondary: #2c3e50;
+        --text: #222;
+        --gray: #666;
+        --border: #ddd;
+        --bg-gray: #f9f9f9;
+        --error: #e74c3c;
+        --link: #007aff;
+        --disabled-bg: #ccc;
+        --disabled-text: #fff;
+      }
+      body {
+        font-family: 'Noto Sans KR', sans-serif;
+        color: var(--text);
+        background-color: #f5f5f5;
+        margin: 0;
+      }
+      
+      /* Hide scrollbar */
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+      /* Guide Document Styles */
+      .doc-h1 { 
+        border-bottom: 3px solid var(--primary); 
+        padding-bottom: 15px; 
+        margin-bottom: 30px; 
+        font-size: 26px; 
+        font-weight: 700;
+        color: #111;
+      }
+      .doc-h2 { 
+        background: #2c3e50; 
+        color: #fff; 
+        padding: 10px 15px; 
+        border-radius: 4px; 
+        margin-top: 50px; 
+        margin-bottom: 20px;
+        font-size: 18px; 
+        font-weight: 700;
+      }
+      .doc-h3 { 
+        color: var(--primary); 
+        border-left: 4px solid var(--primary); 
+        padding-left: 12px; 
+        margin-top: 40px; 
+        margin-bottom: 15px;
+        font-size: 16px; 
+        font-weight: 700;
+      }
+      .doc-desc {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 20px;
+        line-height: 1.6;
+      }
+
+      /* Table Styles */
+      .wf-table { 
+        width: 100%; 
+        border-collapse: collapse; 
+        margin-bottom: 30px; 
+        table-layout: fixed; 
+        background: #fff;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      }
+      .wf-table th, .wf-table td { 
+        border: 1px solid var(--border); 
+        padding: 15px; 
+        vertical-align: top; 
+        font-size: 13px;
+      }
+      .wf-table th { 
+        background: #f0f0f0; 
+        width: 15%; 
+        text-align: left; 
+        font-weight: 700; 
+        color: #333; 
+      }
+      .wf-col { 
+        background: #fff; 
+      }
+      .col-before, .col-after { width: 35%; background: #fff; }
+      .col-guide { width: 15%; background: #fafafa; font-size: 12px; color: #555; }
+      
+      /* Source/Badge Tags */
+      .badge { display: inline-block; padding: 2px 5px; border-radius: 3px; font-size: 10px; color: #fff; font-weight: bold; margin-bottom: 4px; margin-right: 2px; }
+      .bg-gen { background: #27ae60; } /* 일반 */
+      .bg-auto { background: #3498db; } /* 자동차 */
+      .bg-long { background: #9b59b6; } /* 장기 */
+      .bg-com { background: #95a5a6; } /* 공통 */
+      .bg-my { background: #e67e22; }  /* MY */
+      .bg-cont { background: #e74c3c; } /* 콘텐츠 */
+
+      /* --- Input Specific Styles (Input Guide) --- */
+      .wf-label { font-size: 12px; font-weight: bold; margin-bottom: 5px; display: block; color: #333; }
+      .wf-input-box {
+        display: flex; align-items: center; justify-content: space-between;
+        border: 1px solid var(--border); border-radius: 4px; padding: 0 10px;
+        height: 40px; background: #fff; width: 100%; box-sizing: border-box;
+      }
+      .wf-input-box.focus { border-color: #333; }
+      .wf-input-box.error { border-color: var(--error); }
+      .wf-input-box.read-only { background: #f5f5f5; color: #999; }
+      .wf-input-box.disabled { background: #f5f5f5; color: #999; cursor: not-allowed; }
+      
+      .wf-input-box input { border: none; outline: none; width: 100%; font-size: 14px; background: transparent; padding: 0; margin: 0; color: #333; }
+      .wf-input-box input::placeholder { color: #aaa; }
+      .wf-input-box input:disabled { background: transparent; cursor: not-allowed; }
+      
+      .wf-clear { font-size: 14px; color: #ccc; cursor: pointer; }
+      .wf-unit { font-size: 13px; margin-left: 5px; color: #333; }
+      .wf-timer { color: var(--error); font-size: 12px; margin-right: 8px; font-weight: bold; }
+      .wf-search { font-size: 16px; color: #666; cursor: pointer; }
+      
+      /* Old button styles from InputGuide (kept for compatibility) */
+      .btn-in { padding: 5px 10px; font-size: 11px; border: 1px solid #ddd; background: #fff; border-radius: 4px; cursor: pointer; white-space: nowrap; }
+      .btn-in.active { border-color: var(--primary); color: var(--primary); font-weight: bold; }
+
+      .flex-row { display: flex; gap: 6px; align-items: center; width: 100%; }
+      .jumin-dash { margin: 0 5px; color: #999; font-weight: bold; }
+      
+      .jumin-back-box { display: flex; align-items: center; gap: 5px; }
+      .jumin-digit { width: 30px; height: 40px; border: 1px solid #ddd; border-radius: 4px; text-align: center; line-height: 38px; background: #fff; font-size: 14px;}
+      .jumin-digit.focus { border-color: #333; }
+      .jumin-mask { letter-spacing: 2px; font-size: 14px; color: #999; }
+
+      .btn-group { display: flex; width: 100%; }
+      .btn-gender { flex: 1; height: 40px; border: 1px solid #ddd; background: #fff; cursor: pointer; margin-left: -1px; font-size:13px; color: #666; }
+      .btn-gender:first-child { margin-left: 0; border-top-left-radius: 4px; border-bottom-left-radius: 4px; }
+      .btn-gender:last-child { border-top-right-radius: 4px; border-bottom-right-radius: 4px; }
+      .btn-gender.active { border-color: var(--primary); color: var(--primary); font-weight: bold; z-index: 1; background: #fff5eb; }
+
+      .secure-box { display: flex; gap: 4px; width: 100%; }
+      .secure-input { border: 1px solid var(--border); border-radius: 4px; height: 40px; flex: 1; text-align: center; display: flex; align-items: center; justify-content: center; font-size: 14px; background: #fff; }
+      .secure-input.mask { background: #f0f0f0; color: #999; font-size: 10px; letter-spacing: 2px; }
+
+      .file-upload-area { 
+        border: 1px dashed #ccc; background: #fafafa; border-radius: 4px; 
+        padding: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; 
+        height: 80px; cursor: pointer; color: #999; font-size: 12px; width: 100%;
+      }
+      .file-preview {
+        border: 1px solid #ddd; border-radius: 4px; padding: 0 10px; height:40px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; background:#fff; width: 100%;
+      }
+
+      .textarea-box { border: 1px solid var(--border); border-radius: 4px; padding: 10px; width: 100%; height: 100px; display: flex; flex-direction: column; justify-content: space-between; background:#fff; }
+      .count { text-align: right; font-size: 11px; color: #999; }
+
+      /* --- Selection Specific Styles (Selection Guide) --- */
+      .radio-group { display: flex; flex-direction: column; gap: 8px; }
+      .radio-row { display: flex; align-items: center; cursor: pointer; }
+      .radio-icon { width: 18px; height: 18px; border: 1px solid #ccc; border-radius: 50%; margin-right: 8px; position: relative; background: #fff; }
+      .radio-icon.checked { border-color: var(--primary); }
+      .radio-icon.checked::after { content: ''; position: absolute; width: 10px; height: 10px; background: var(--primary); border-radius: 50%; top: 3px; left: 3px; }
+      
+      .check-group { display: flex; flex-direction: column; gap: 8px; }
+      .check-row { display: flex; align-items: center; cursor: pointer; }
+      .check-box { width: 18px; height: 18px; border: 1px solid #ccc; border-radius: 2px; margin-right: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; background: #fff; flex-shrink: 0; }
+      .check-box.checked { background: var(--primary); border-color: var(--primary); }
+      
+      /* Agreement Box (Checkbox Guide) */
+      .agree-box { border: 1px solid #eee; padding: 15px; border-radius: 8px; background: #fff; }
+      .agree-all { border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px; font-weight: bold; display: flex; align-items: center; }
+      .agree-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 13px; color: #333; }
+      .agree-link { font-size: 12px; color: #999; text-decoration: underline; cursor: pointer; }
+
+      .segment { display: flex; border: 1px solid #ccc; border-radius: 4px; overflow: hidden; width: 100%; }
+      .seg-btn { flex: 1; padding: 10px; text-align: center; background: #fff; color: #666; cursor: pointer; border-left: 1px solid #ccc; font-size: 13px; }
+      .seg-btn:first-child { border-left: none; }
+      .seg-btn.active { background: var(--primary); color: #fff; font-weight: bold; border-color: var(--primary); }
+      
+      .chip-group { display: flex; gap: 6px; flex-wrap: wrap; }
+      .chip { padding: 8px 12px; border: 1px solid #ddd; border-radius: 20px; background: #fff; color: #666; cursor: pointer; font-size: 13px; }
+      .chip.active { border-color: var(--primary); color: var(--primary); font-weight: bold; background: #fff5eb; }
+      
+      .btn-select-group { display: flex; gap: 8px; flex-wrap: wrap; }
+      .btn-select { padding: 10px 15px; border: 1px solid #ddd; border-radius: 4px; background: #fff; cursor: pointer; min-width: 60px; text-align: center; font-size: 13px; }
+      .btn-select.active { border-color: var(--primary); color: var(--primary); font-weight: bold; }
+
+      .dropdown-box { border: 1px solid #ccc; border-radius: 4px; padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; background: #fff; cursor: pointer; width: 100%; box-sizing: border-box; }
+      .switch-box { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; width: 100%; }
+      .switch-toggle { width: 40px; height: 22px; background: #ccc; border-radius: 20px; position: relative; transition: 0.3s; cursor: pointer; }
+      .switch-toggle.on { background: var(--primary); }
+      .switch-circle { width: 18px; height: 18px; background: #fff; border-radius: 50%; position: absolute; top: 2px; left: 2px; transition: 0.3s; }
+      .switch-toggle.on .switch-circle { left: 20px; }
+
+      /* Box Radio (from Radio.html) */
+      .box-radio-group { display: flex; gap: 10px; width: 100%; }
+      .box-radio { 
+          flex: 1; border: 1px solid #ddd; border-radius: 8px; padding: 15px; 
+          text-align: center; cursor: pointer; background: #fff; position: relative;
+          box-sizing: border-box;
+      }
+      .box-radio.active { border: 2px solid var(--primary); background: #fff5eb; padding: 14px; /* Adjust padding to accommodate 2px border */ }
+      .box-badge { 
+          position: absolute; top: -10px; left: 50%; transform: translateX(-50%); 
+          background: var(--primary); color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 10px; 
+      }
+
+      /* --- Action Specific Styles (Action Guide) --- */
+      .btn-primary { display: block; width: 100%; padding: 14px 0; background: var(--primary); color: #fff; text-align: center; font-weight: bold; border-radius: 4px; border: none; cursor: pointer; transition: background 0.2s; font-size: 15px; }
+      .btn-primary:hover { opacity: 0.9; }
+      .btn-primary.disabled { background: var(--disabled-bg); color: var(--disabled-text); cursor: not-allowed; }
+      
+      .btn-secondary { display: block; width: 100%; padding: 14px 0; background: #fff; color: #333; text-align: center; font-weight: bold; border-radius: 4px; border: 1px solid #ccc; cursor: pointer; transition: background 0.2s; font-size: 15px; }
+      .btn-secondary:hover { background: #f5f5f5; }
+      
+      .btn-dashed { display: block; width: 100%; padding: 12px 0; background: #fff; color: #666; text-align: center; border-radius: 4px; border: 1px dashed #999; cursor: pointer; transition: background 0.2s; font-size: 13px; }
+      .btn-dashed:hover { background: #fafafa; }
+      
+      .btn-small { display: inline-block; padding: 6px 12px; background: #fff; color: #333; text-align: center; border-radius: 4px; border: 1px solid #ccc; cursor: pointer; font-size: 12px; white-space: nowrap; }
+      .btn-small:hover { background: #f9f9f9; }
+
+      .btn-in-input { padding: 5px 10px; font-size: 12px; border-radius: 4px; background: #fff; border: 1px solid #ddd; color: #333; cursor: pointer; transition: 0.2s; }
+      .btn-in-input.active { border-color: var(--primary); color: var(--primary); font-weight: bold; }
+
+      .btn-text { background: none; border: none; color: #333; text-decoration: underline; cursor: pointer; padding: 0; }
+      .btn-icon { display: flex; align-items: center; justify-content: center; gap: 5px; }
+      
+      .flex-col { display: flex; flex-direction: column; gap: 8px; }
+      .input-mock { display: flex; justify-content: space-between; align-items: center; border: 1px solid #ddd; padding: 0 10px; height: 40px; border-radius: 4px; background: #fff; width: 100%; box-sizing: border-box; }
+
+      .link-txt { color: var(--text); text-decoration: underline; cursor: pointer; }
+      .link-blue { color: var(--link); text-decoration: none; cursor: pointer; }
+      .link-gray { color: var(--gray); font-size: 12px; cursor: pointer; }
+
+      /* --- Display Specific Styles (Display Guide) --- */
+      /* Card */
+      .card { border: 1px solid #ddd; border-radius: 8px; padding: 15px; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.03); margin-bottom: 10px; position: relative; }
+      .card-head { display: flex; justify-content: space-between; border-bottom: 1px dashed #eee; padding-bottom: 8px; margin-bottom: 10px; font-weight: bold; font-size: 13px; align-items: center; }
+      .card-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 12px; color: #666; }
+      .card-val { color: #333; font-weight: 500; text-align: right; }
+      
+      /* Plan Card */
+      .plan-wrap { display: flex; gap: 8px; }
+      .plan-card { border: 1px solid #ddd; border-radius: 8px; padding: 15px; text-align: center; background: #fff; flex: 1; position: relative; }
+      .plan-card.best { border: 2px solid var(--primary); }
+      .plan-badge { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--primary); color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 10px; }
+      
+      /* Benefit Card */
+      .benefit-card { border: 1px solid #eee; border-radius: 8px; padding: 12px; margin-bottom: 8px; background: #fff; }
+      .benefit-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; border-bottom: 1px solid #f5f5f5; padding-bottom: 8px; font-weight:bold;}
+      .card-logo { width: 30px; height: 20px; background: #eee; border-radius: 2px; }
+      .benefit-list li { font-size: 11px; color: #666; margin-bottom: 2px; list-style-type: disc; margin-left: 15px; }
+
+      /* Table */
+      .data-table { width: 100%; border-collapse: collapse; font-size: 11px; text-align: center; margin-top: 5px; }
+      .data-table th { background: #f8f9fa; border: 1px solid #ddd; padding: 6px; font-weight: bold; }
+      .data-table td { border: 1px solid #ddd; padding: 6px; }
+      .t-left { text-align: left; padding-left: 8px; }
+      .t-right { text-align: right; padding-right: 8px; }
+
+      /* List */
+      .list-item { border-bottom: 1px solid #eee; padding: 12px 0; display: flex; justify-content: space-between; align-items: center; }
+      .list-thumb { width: 60px; height: 40px; background: #eee; border-radius: 4px; margin-right: 10px; }
+      
+      /* Accordion */
+      .acc { border: 1px solid #eee; border-radius: 4px; margin-bottom: 5px; overflow: hidden; }
+      .acc-head { padding: 12px; background: #fff; font-weight: bold; display: flex; justify-content: space-between; cursor: pointer; font-size: 13px; }
+      .acc-body { padding: 15px; background: #f9f9f9; font-size: 12px; color: #555; border-top: 1px solid #eee; line-height:1.5; }
+
+      /* Badge & Stepper */
+      .badge { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: bold; margin-right: 4px; }
+      .bdg-org { background: #fff5eb; color: var(--primary); border: 1px solid #ffe0c2; }
+      .bdg-gray { background: #eee; color: #666; }
+      .bdg-dday { background: #333; color: #fff; border-radius: 10px; }
+
+      .step-wrap { display: flex; justify-content: center; gap: 5px; margin: 10px 0; }
+      .step-dot { width: 8px; height: 8px; background: #ddd; border-radius: 50%; }
+      .step-dot.on { width: 20px; border-radius: 4px; background: var(--primary); }
+      .step-text { font-size: 11px; color: #999; text-align: center; }
+      .step-text span.on { color: var(--primary); font-weight: bold; }
+
+      /* Tab */
+      .tab-wrap { display: flex; border-bottom: 1px solid #ddd; margin-bottom: 15px; }
+      .tab-item { flex: 1; text-align: center; padding: 10px; cursor: pointer; color: #999; }
+      .tab-item.on { border-bottom: 2px solid #333; font-weight: bold; color: #333; }
+
+      /* Completion */
+      .complete-box { text-align: center; padding: 30px 0; background: #f9f9f9; border-radius: 8px; }
+      .check-icon { font-size: 40px; color: #2ecc71; margin-bottom: 10px; }
+    </style>
+    <script type="importmap">
+    {
+      "imports": {
+        "react/": "https://esm.sh/react@^19.2.3/",
+        "react": "https://esm.sh/react@^19.2.3",
+        "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+        "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+      }
+    }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

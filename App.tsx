@@ -1681,7 +1681,7 @@ const DisplayGuide = () => (
           <td>
              <span className="badge bg-auto">자동차</span>
              <ul className="list-disc pl-4 space-y-1 text-gray-600">
-              <li>제조사 > 차종 > 연식 등 단계적 선택이 필요할 때 사용합니다.</li>
+              <li>제조사 &gt; 차종 &gt; 연식 등 단계적 선택이 필요할 때 사용합니다.</li>
               <li>상위 항목 선택 시 하위 목록이 갱신되는 구조를 가집니다.</li>
              </ul>
           </td>
